@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypeForge — Touch Typing Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ── HEADER ── -->
+    <h1>TypeForge</h1>
+    <p class="subtitle">Build muscle memory · Forge speed · Master touch typing</p>
+
+    <!-- ── TABS ── -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('practice')">⌨ Practice</button>
+      <button class="tab"        onclick="switchTab('lessons')">📚 Lessons</button>
+      <button class="tab"        onclick="switchTab('heatmap')">🔥 Heatmap</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         PRACTICE TAB
+    ════════════════════════════════════════════ -->
+    <div id="tab-practice">
+
+      <!-- Live stats -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-val" id="s-wpm">0</div>
+          <div class="stat-label">WPM</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val green" id="s-acc">100%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val yellow" id="s-streak">0</div>
+          <div class="stat-label">Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="s-raw">0</div>
+          <div class="stat-label">Raw WPM</div>
+        </div>
+      </div>
+
+      <!-- Settings row -->
+      <div class="settings-row">
+        <span class="settings-label">Mode:</span>
+        <button class="pill-btn active" id="btn-words"     onclick="setMode('words',this)">Words</button>
+        <button class="pill-btn"        id="btn-sentences" onclick="setMode('sentences',this)">Sentences</button>
+        <button class="pill-btn"        id="btn-numbers"   onclick="setMode('numbers',this)">Numbers</button>
+
+        <span class="settings-label" style="margin-left:10px">Time:</span>
+        <button class="pill-btn active" id="btn-t30"  onclick="setTimer(30,this)">30s</button>
+        <button class="pill-btn"        id="btn-t60"  onclick="setTimer(60,this)">60s</button>
+        <button class="pill-btn"        id="btn-t120" onclick="setTimer(120,this)">120s</button>
+        <button class="pill-btn"        id="btn-tinf" onclick="setTimer(0,this)">∞</button>
+
+        <button class="sound-toggle on" id="sound-btn" onclick="toggleSound()" style="margin-left:10px">
+          🔊 Sound
+        </button>
+      </div>
+
+      <!-- ── HAND ANIMATIONS ── -->
+      <div class="hands-section">
+
+        <!-- Left hand -->
+        <div class="hand-box">
+          <div class="hand-label">Left Hand</div>
+          <svg class="hand-svg" viewBox="0 0 180 160" id="left-hand">
+            <rect x="30" y="90" width="120" height="55" rx="14" class="finger-palm"/>
+            <!-- Pinky -->
+            <g id="lf-pinky" style="transform-origin:42px 90px">
+              <rect x="30" y="42" width="24" height="52" rx="8" class="finger-inactive" id="lf-pinky-rect"/>
+              <rect x="30" y="36" width="24" height="14" rx="7" class="finger-inactive" id="lf-pinky-tip"/>
+            </g>
+            <!-- Ring -->
+            <g id="lf-ring" style="transform-origin:66px 90px">
+              <rect x="56" y="28" width="26" height="66" rx="8" class="finger-inactive" id="lf-ring-rect"/>
+              <rect x="56" y="22" width="26" height="14" rx="7" class="finger-inactive" id="lf-ring-tip"/>
+            </g>
+            <!-- Middle -->
+            <g id="lf-middle" style="transform-origin:93px 90px">
+              <rect x="84" y="20" width="26" height="74" rx="8" class="finger-inactive" id="lf-middle-rect"/>
+              <rect x="84" y="14" width="26" height="14" rx="7" class="finger-inactive" id="lf-middle-tip"/>
+            </g>
+            <!-- Index -->
+            <g id="lf-index" style="transform-origin:118px 90px">
+              <rect x="112" y="28" width="26" height="66" rx="8" class="finger-inactive" id="lf-index-rect"/>
+              <rect x="112" y="22" width="26" height="14" rx="7" class="finger-inactive" id="lf-index-tip"/>
+            </g>
+            <!-- Thumb -->
+            <g id="lf-thumb" style="transform-origin:148px 115px">
+              <rect x="140" y="100" width="32" height="20" rx="8" class="finger-inactive" id="lf-thumb-rect"/>
+              <rect x="153"  y="92" width="20" height="16" rx="7" class="finger-inactive" id="lf-thumb-tip"/>
+            </g>
+            <!-- Knuckle dots -->
+            <circle cx="42"  cy="94" r="3" fill="#1a1a22"/>
+            <circle cx="69"  cy="94" r="3" fill="#1a1a22"/>
+            <circle cx="97"  cy="94" r="3" fill="#1a1a22"/>
+            <circle cx="125" cy="94" r="3" fill="#1a1a22"/>
+          </svg>
+        </div>
+
+        <!-- Right hand -->
+        <div class="hand-box">
+          <div class="hand-label">Right Hand</div>
+          <svg class="hand-svg" viewBox="0 0 180 160" id="right-hand">
+            <rect x="30" y="90" width="120" height="55" rx="14" class="finger-palm"/>
+            <!-- Thumb -->
+            <g id="rf-thumb" style="transform-origin:32px 115px">
+              <rect x="8"  y="100" width="32" height="20" rx="8" class="finger-inactive" id="rf-thumb-rect"/>
+              <rect x="7"  y="92"  width="20" height="16" rx="7" class="finger-inactive" id="rf-thumb-tip"/>
+            </g>
+            <!-- Index -->
+            <g id="rf-index" style="transform-origin:42px 90px">
+              <rect x="30" y="28" width="26" height="66" rx="8" class="finger-inactive" id="rf-index-rect"/>
+              <rect x="30" y="22" width="26" height="14" rx="7" class="finger-inactive" id="rf-index-tip"/>
+            </g>
+            <!-- Middle -->
+            <g id="rf-middle" style="transform-origin:67px 90px">
+              <rect x="56" y="20" width="26" height="74" rx="8" class="finger-inactive" id="rf-middle-rect"/>
+              <rect x="56" y="14" width="26" height="14" rx="7" class="finger-inactive" id="rf-middle-tip"/>
+            </g>
+            <!-- Ring -->
+            <g id="rf-ring" style="transform-origin:93px 90px">
+              <rect x="84" y="28" width="26" height="66" rx="8" class="finger-inactive" id="rf-ring-rect"/>
+              <rect x="84" y="22" width="26" height="14" rx="7" class="finger-inactive" id="rf-ring-tip"/>
+            </g>
+            <!-- Pinky -->
+            <g id="rf-pinky" style="transform-origin:118px 90px">
+              <rect x="112" y="42" width="24" height="52" rx="8" class="finger-inactive" id="rf-pinky-rect"/>
+              <rect x="112" y="36" width="24" height="14" rx="7" class="finger-inactive" id="rf-pinky-tip"/>
+            </g>
+            <!-- Knuckle dots -->
+            <circle cx="43"  cy="94" r="3" fill="#1a1a22"/>
+            <circle cx="69"  cy="94" r="3" fill="#1a1a22"/>
+            <circle cx="97"  cy="94" r="3" fill="#1a1a22"/>
+            <circle cx="125" cy="94" r="3" fill="#1a1a22"/>
+          </svg>
+        </div>
+
+      </div><!-- /.hands-section -->
+
+      <!-- Finger color legend -->
+      <div class="finger-legend">
+        <div class="fl-item"><div class="fl-dot" style="background:#a855f7"></div>Pinky</div>
+        <div class="fl-item"><div class="fl-dot" style="background:#06b6d4"></div>Ring</div>
+        <div class="fl-item"><div class="fl-dot" style="background:#f59e0b"></div>Middle</div>
+        <div class="fl-item"><div class="fl-dot" style="background:#22c55e"></div>Index</div>
+        <div class="fl-item"><div class="fl-dot" style="background:#f87171"></div>Thumb</div>
+      </div>
+
+      <!-- Next-key hint -->
+      <div class="key-hint" id="key-hint">Start typing to see which finger to use</div>
+
+      <!-- ── TYPING BOX ── -->
+      <div class="typing-box" onclick="focusInput()">
+        <div class="timer-display">Time: <span id="timer-val">30</span>s</div>
+        <div class="text-display" id="text-display"></div>
+        <input
+          type="text"
+          id="typing-input"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        <div class="progress-wrap">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="btn btn-primary"           onclick="restartTest()">New Test</button>
+        <button class="btn btn-secondary btn-sm"  onclick="restartSame()">Retry</button>
+        <span style="flex:1"></span>
+        <span id="status-msg" class="status-msg">Click the text area or press any key to start</span>
+      </div>
+
+      <!-- On-screen keyboard -->
+      <div class="keyboard-wrap">
+        <div class="kb-row" id="kb-row-1"></div>
+        <div class="kb-row" id="kb-row-2"></div>
+        <div class="kb-row" id="kb-row-3"></div>
+        <div class="kb-row" id="kb-row-4"></div>
+      </div>
+
+      <!-- Results overlay -->
+      <div class="results-panel" id="results-panel">
+        <div class="results-eyebrow">Your Speed</div>
+        <div class="result-wpm" id="r-wpm">0</div>
+        <div class="results-eyebrow" style="margin-bottom:18px">words per minute</div>
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="result-num" id="r-acc"   style="color:var(--green)">0%</div>
+            <div class="result-lbl">Accuracy</div>
+          </div>
+          <div class="result-item">
+            <div class="result-num" id="r-raw"   style="color:var(--accent)">0</div>
+            <div class="result-lbl">Raw WPM</div>
+          </div>
+          <div class="result-item">
+            <div class="result-num" id="r-errs"  style="color:var(--red)">0</div>
+            <div class="result-lbl">Errors</div>
+          </div>
+          <div class="result-item">
+            <div class="result-num" id="r-time">0s</div>
+            <div class="result-lbl">Time</div>
+          </div>
+          <div class="result-item">
+            <div class="result-num" id="r-chars">0</div>
+            <div class="result-lbl">Chars</div>
+          </div>
+          <div class="result-item">
+            <div class="result-num" id="r-streak">0</div>
+            <div class="result-lbl">Best Streak</div>
+          </div>
+        </div>
+        <div class="results-actions">
+          <button class="btn btn-primary"    onclick="restartTest()">New Test</button>
+          <button class="btn btn-secondary"  onclick="restartSame()">Retry Same</button>
+        </div>
+      </div>
+
+    </div><!-- /#tab-practice -->
+
+
+    <!-- ════════════════════════════════════════════
+         LESSONS TAB
+    ════════════════════════════════════════════ -->
+    <div id="tab-lessons" style="display:none">
+      <p class="tab-intro">Select a lesson and click Start. Lessons progress from beginner to advanced.</p>
+      <div class="lessons-grid" id="lessons-grid"></div>
+      <div class="lessons-start-row">
+        <button class="btn btn-primary" onclick="startLesson()">▶ Start Selected Lesson</button>
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════
+         HEATMAP TAB
+    ════════════════════════════════════════════ -->
+    <div id="tab-heatmap" style="display:none">
+      <p class="tab-intro">
+        Brighter = pressed more often. Red border = high error rate on that key.
+        Data builds up across tests in this session.
+      </p>
+      <div class="keyboard-wrap">
+        <div class="kb-row" id="hm-row-1"></div>
+        <div class="kb-row" id="hm-row-2"></div>
+        <div class="kb-row" id="hm-row-3"></div>
+        <div class="kb-row" id="hm-row-4"></div>
+      </div>
+      <div class="heatmap-legend">
+        <div class="hl-box" style="background:#1e1e22;border:1px solid #2a2a30"></div><span>Never used</span>
+        <div class="hl-box" style="margin-left:10px;background:#7c6af718"></div><span>Rarely</span>
+        <div class="hl-box" style="margin-left:10px;background:#7c6af750"></div><span>Sometimes</span>
+        <div class="hl-box" style="margin-left:10px;background:#7c6af7"></div><span>Most used</span>
+        <div class="hl-box" style="margin-left:10px;background:#f8717150;border:1px solid #f87171"></div><span>High errors</span>
+      </div>
+      <div class="heatmap-errors">
+        <div class="heatmap-errors-label">Keys with most errors</div>
+        <div id="error-keys-list" class="error-keys-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  <!-- Toast notification -->
+  <div class="notif" id="notif"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

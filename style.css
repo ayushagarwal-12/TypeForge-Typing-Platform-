@@ -1,0 +1,760 @@
+/* ============================================================
+   TypeForge — style.css
+   Sections:
+   1. CSS Variables & Reset
+   2. Base / Layout
+   3. Navigation Tabs
+   4. Stats Bar
+   5. Settings Row
+   6. Hand Animation SVGs
+   7. Finger Legend & Key Hint
+   8. Typing Box
+   9. On-Screen Keyboard
+   10. Controls & Buttons
+   11. Results Panel
+   12. Lessons Tab
+   13. Heatmap Tab
+   14. Notification Toast
+   15. Animations
+============================================================ */
+
+
+/* ── 1. CSS Variables & Reset ─────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Surfaces */
+  --bg:      #0d0d0f;
+  --surface: #161618;
+  --card:    #1e1e22;
+  --border:  #2a2a30;
+
+  /* Text */
+  --text:    #e8e8ec;
+  --muted:   #6b6b7a;
+
+  /* Accent palette */
+  --accent:  #7c6af7;
+  --accent2: #5cb8b2;
+  --green:   #4ade80;
+  --red:     #f87171;
+  --yellow:  #fbbf24;
+
+  /* Typing feedback */
+  --correct: #4ade80;
+  --wrong:   #f87171;
+  --cursor:  #7c6af7;
+
+  /* Finger colors */
+  --f-pinky:  #a855f7;
+  --f-ring:   #06b6d4;
+  --f-middle: #f59e0b;
+  --f-index:  #22c55e;
+  --f-thumb:  #f87171;
+}
+
+
+/* ── 2. Base / Layout ─────────────────────────────────────── */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 12px 48px;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 960px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  text-align: center;
+  margin-bottom: 6px;
+  /* Gradient text */
+  background: linear-gradient(135deg, #7c6af7 0%, #5cb8b2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.tab-intro {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.status-msg {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+
+/* ── 3. Navigation Tabs ───────────────────────────────────── */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 1;
+  padding: 9px 8px;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Syne', sans-serif;
+  color: var(--muted);
+  border: 1px solid transparent;
+  background: none;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tab.active {
+  background: var(--card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+
+/* ── 4. Stats Bar ─────────────────────────────────────────── */
+
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat-val {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+}
+
+.stat-val.green  { color: var(--green); }
+.stat-val.yellow { color: var(--yellow); }
+
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+
+/* ── 5. Settings Row ──────────────────────────────────────── */
+
+.settings-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.settings-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.pill-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pill-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.pill-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(124, 106, 247, 0.08);
+}
+
+.sound-toggle {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sound-toggle.on {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+
+/* ── 6. Hand Animation SVGs ───────────────────────────────── */
+
+.hands-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.hand-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hand-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.hand-svg {
+  width: 180px;
+  height: 160px;
+}
+
+/* SVG finger fill classes */
+.finger-palm     { fill: #3a3a45; }
+.finger-inactive { fill: #2e2e38; transition: fill 0.2s, filter 0.2s; }
+
+
+/* ── 7. Finger Legend & Key Hint ──────────────────────────── */
+
+.finger-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.fl-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.fl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.key-hint {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 8px;
+  min-height: 22px;
+}
+
+.key-hint strong {
+  color: var(--accent);
+  font-size: 15px;
+}
+
+
+/* ── 8. Typing Box ────────────────────────────────────────── */
+
+.typing-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 28px 20px;
+  margin-bottom: 14px;
+  position: relative;
+  cursor: text;
+  transition: border-color 0.2s;
+}
+
+.typing-box:focus-within {
+  border-color: rgba(124, 106, 247, 0.4);
+}
+
+.text-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 21px;
+  line-height: 2;
+  letter-spacing: 0.4px;
+  user-select: none;
+  position: relative;
+  min-height: 100px;
+  word-break: break-word;
+}
+
+/* Individual character states */
+.char {
+  position: relative;
+  transition: color 0.05s;
+}
+
+.char.pending { color: #555560; }
+
+.char.correct { color: var(--correct); }
+
+.char.wrong {
+  color: var(--wrong);
+  background: rgba(248, 113, 113, 0.12);
+  border-radius: 2px;
+}
+
+/* Blinking cursor underline */
+.char.cursor::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 2px;
+  background: var(--cursor);
+  animation: blink 0.8s infinite;
+}
+
+/* Hidden real input (captures keystrokes) */
+#typing-input {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: text;
+  font-size: 1px;
+}
+
+/* Timer */
+.timer-display {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.timer-display span {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Progress bar */
+.progress-wrap {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c6af7, #5cb8b2);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+
+/* ── 9. On-Screen Keyboard ────────────────────────────────── */
+
+.keyboard-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.kb-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+  justify-content: center;
+}
+
+.key {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--card);
+  cursor: default;
+  transition: all 0.1s ease;
+  position: relative;
+}
+
+.key.wide      { min-width: 52px; }
+.key.xwide     { min-width: 68px; }
+.key.space-key { min-width: 220px; }
+
+/* Home-row marker (the bump you feel on F and J) */
+.key.home-row {
+  border-bottom: 2px solid rgba(124, 106, 247, 0.35);
+}
+
+/* Active / pressed state — color by finger */
+.key.active {
+  transform: scale(0.92) translateY(2px);
+  color: #fff;
+}
+
+.key[data-f="L4"].active { background: var(--f-pinky);  border-color: var(--f-pinky);  box-shadow: 0 0 12px rgba(168,85,247,0.35); }
+.key[data-f="L3"].active { background: var(--f-ring);   border-color: var(--f-ring);   box-shadow: 0 0 12px rgba(6,182,212,0.35); }
+.key[data-f="L2"].active { background: var(--f-middle); border-color: var(--f-middle); box-shadow: 0 0 12px rgba(245,158,11,0.35); color: #000; }
+.key[data-f="L1"].active { background: var(--f-index);  border-color: var(--f-index);  box-shadow: 0 0 12px rgba(34,197,94,0.35);  color: #000; }
+.key[data-f="R1"].active { background: var(--f-index);  border-color: var(--f-index);  box-shadow: 0 0 12px rgba(34,197,94,0.35);  color: #000; }
+.key[data-f="R2"].active { background: var(--f-middle); border-color: var(--f-middle); box-shadow: 0 0 12px rgba(245,158,11,0.35); color: #000; }
+.key[data-f="R3"].active { background: var(--f-ring);   border-color: var(--f-ring);   box-shadow: 0 0 12px rgba(6,182,212,0.35); }
+.key[data-f="R4"].active { background: var(--f-pinky);  border-color: var(--f-pinky);  box-shadow: 0 0 12px rgba(168,85,247,0.35); }
+.key[data-f="TH"].active { background: var(--f-thumb);  border-color: var(--f-thumb);  box-shadow: 0 0 12px rgba(248,113,113,0.35); }
+
+/* Error flash */
+.key.err-flash {
+  background: rgba(248, 113, 113, 0.45) !important;
+  border-color: var(--red) !important;
+  animation: errfl 0.25s ease;
+}
+
+/* Heatmap heat levels */
+.key.heat1 { background: rgba(124, 106, 247, 0.10); }
+.key.heat2 { background: rgba(124, 106, 247, 0.30); }
+.key.heat3 { background: #7c6af7; color: #fff; }
+.key.heat-err {
+  background: rgba(248, 113, 113, 0.20) !important;
+  border-color: rgba(248, 113, 113, 0.55) !important;
+}
+
+
+/* ── 10. Controls & Buttons ───────────────────────────────── */
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.2px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #6b59e6;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+}
+
+.btn-sm {
+  padding: 7px 14px;
+  font-size: 12px;
+}
+
+
+/* ── 11. Results Panel ────────────────────────────────────── */
+
+.results-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  display: none;
+  margin-top: 14px;
+  animation: fadeIn 0.3s ease;
+}
+
+.results-panel.show {
+  display: block;
+}
+
+.results-eyebrow {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.result-wpm {
+  font-size: 64px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.result-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.result-num {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.result-lbl {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.results-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+
+/* ── 12. Lessons Tab ──────────────────────────────────────── */
+
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.lesson-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lesson-card:hover,
+.lesson-card.selected {
+  border-color: var(--accent);
+  background: rgba(124, 106, 247, 0.06);
+}
+
+.lesson-card h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.lesson-card p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.lesson-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-easy   { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.badge-medium { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+.badge-hard   { background: rgba(248,113,113,0.1);color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+
+.lessons-start-row {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+
+/* ── 13. Heatmap Tab ──────────────────────────────────────── */
+
+.heatmap-legend {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.hl-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.heatmap-errors {
+  margin-top: 18px;
+}
+
+.heatmap-errors-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.error-keys-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.error-key-chip {
+  padding: 5px 12px;
+  background: rgba(248,113,113,0.10);
+  border: 1px solid rgba(248,113,113,0.25);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #f87171;
+}
+
+
+/* ── 14. Notification Toast ───────────────────────────────── */
+
+.notif {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--card);
+  border: 1px solid var(--accent);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  transform: translateY(70px);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.notif.show {
+  transform: translateY(0);
+}
+
+
+/* ── 15. Animations ───────────────────────────────────────── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes errfl {
+  0%   { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
